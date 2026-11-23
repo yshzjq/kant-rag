@@ -1,0 +1,8 @@
+[
+  {"document_id":"vpn","title":"VPN 원격 접속","category":"access","status":"current","source":"devdesk://vpn/current","file":"raw/vpn.txt"},
+  {"document_id":"vpn-old","title":"이전 VPN 절차","category":"access","status":"retired","source":"devdesk://vpn/retired","file":"raw/vpn-old.html"},
+  {"document_id":"token","title":"API 토큰 발급","category":"access","status":"current","source":"devdesk://token/current","file":"raw/token.html"},
+  {"document_id":"door","title":"사무실 출입문","category":"access","status":"current","source":"devdesk://door/current","file":"raw/door.txt"},
+  {"document_id":"python","title":"Python 개발환경","category":"development","status":"current","source":"devdesk://python/current","file":"raw/python.html"},
+  {"document_id":"deploy","title":"배포 승인","category":"development","status":"current","source":"devdesk://deploy/current","file":"raw/deploy.txt"}
+]

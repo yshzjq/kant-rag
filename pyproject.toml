@@ -1,0 +1,19 @@
+[dependency-groups]
+dev = [
+    "sentence-transformers==6.0.1",
+    "transformers==5.16.1",
+    "torch==2.14.0",
+    "numpy==2.5.2",
+    "qdrant-client==1.19.0",
+    "openai==3.16.2",
+    "pydantic==2.13.5",
+    "python-dotenv==1.2.3",
+]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

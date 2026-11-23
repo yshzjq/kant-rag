@@ -1,0 +1,4 @@
+[
+  {"question_id":"given-token","question":"임시열쇠를 어디에서 발급하나요?","category":"access","reference_answer":"API 토큰은 개발자 포털에서 발급합니다.","relevant_document_ids":["token"],"required_terms":["개발자 포털"]},
+  {"question_id":"given-python","question":"개발환경의 Python 버전은 무엇인가요?","category":"development","reference_answer":"Python 3.12입니다.","relevant_document_ids":["python"],"required_terms":["3.12"]}
+]
