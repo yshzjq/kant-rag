@@ -51,10 +51,7 @@ def build_index(chunks, embedder):
     points = []
     for i, (row, vector) in enumerate(zip(chunks, vectors, strict=True)):
         # point = todo("i, vector, row를 Qdrant PointStruct에 연결하세요.")
-        point = models.Filter(must=[
-            models.FieldCondition(key="status", match=models.MatchValue(value="current")),
-            models.FieldCondition(key="category", match=models.MatchValue(value=category]))]
-            )
+        point = models.PointStruct(id = i, vector = [float(x) for x in vector], payload = row)
         points.append(point)
     client.upsert(collection_name="devdesk", points=points, wait=True)
     return client
@@ -65,7 +62,9 @@ def search(client, embedder, question, category, top_k=2):
         raise ValueError("top_k는 1~5의 정수여야 합니다.")
     vector = embedder.encode(["query: " + question], normalize_embeddings=True)[0]
     # scope = todo("현행 문서이면서 지정한 category인 Qdrant 필터를 만드세요.")
-    scope = category == vector["category"]
+    scope = models.Filter(must=[
+        models.FieldCondition(key="status", match=models.MatchValue(value="current")),
+        models.FieldCondition(key="category", match=models.MatchValue(value=category))])
     hits = client.query_points(collection_name="devdesk", query=list(vector),
                                query_filter=scope, limit=top_k, with_payload=True).points
     return [{**hit.payload, "score": hit.score} for hit in hits]
