@@ -74,17 +74,20 @@ def search(client, embedder, question, category, top_k=2):
 def rewrite_query(question, aliases):
     rewritten = question
     for alias, formal_name in aliases.items():
-        rewritten = todo("현재 문자열에서 alias를 formal_name으로 바꾸세요.")
+        # rewritten = todo("현재 문자열에서 alias를 formal_name으로 바꾸세요.")
+        rewritten = rewritten.replace(alias, formal_name)
     return rewritten
 
 
 def answer_question(question, rows, generate):
     if not rows:
         return {"answer": "확인할 문서가 없습니다.", "citations": [], "needs_human": True}
-    context = todo("각 검색 결과를 [chunk_id] 본문으로 묶고 빈 줄로 연결하세요.")
+    # context = todo("각 검색 결과를 [chunk_id] 본문으로 묶고 빈 줄로 연결하세요.")
+    context = str.join('\n\n',["[" + row["chunk_id"] + "] " + row["text"] for row in rows ])
     reply = support.validate_shape(generate(question, context))
     allowed = {row["chunk_id"] for row in rows}
-    if todo("검색 결과에 없는 출처가 하나라도 있는지 검사하세요."):
+    #if todo("검색 결과에 없는 출처가 하나라도 있는지 검사하세요."):
+    if any(c not in allowed for c in  reply["citations"]):
         raise ValueError("검색하지 않은 출처가 있습니다.")
     if reply["needs_human"] == bool(reply["citations"]):
         raise ValueError("답변에는 출처가 필요하며 담당자 확인에는 출처를 비웁니다.")
