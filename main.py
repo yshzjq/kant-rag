@@ -112,6 +112,10 @@ def measure(case, rows, reply):
     elif not answer_ok:
         failure = "답변 확인 필요" if expected else "보류 실패"
     # 관측: 실제 evaluate 결과에서 개선, 악화 질문과 답변 본문을 확인해 기록합니다.
+
+    # 검색 누락과 답변 문제는 없었고, 자료 없는 질문은 두 방식 모두 담당자 확인으로 넘겼다.
+    # 점수가 오르면 정답 문서가 더 확실하게 1등으로 뽑히므로 변환을 적용한다.
+    # 한계: 분류 안 문서가 적어서 변환 없이도 맞췄다. replace가 별칭만 바꾸고 조사는 그대로 두어서 조사가 자연스럽지 않다(API 토큰를).
     return {"document_recall": recall, "answer_check": bool(answer_ok), "failure": failure}
 
 
