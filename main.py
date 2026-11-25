@@ -95,13 +95,15 @@ def answer_question(question, rows, generate):
 
 
 def make_golden():
-    return todo("답이 있는 사례와 자료가 없는 사례를 하나씩 작성하세요.")
-
+    #return todo("답이 있는 사례와 자료가 없는 사례를 하나씩 작성하세요.")
+    return [{"question_id":"mine-token-expiry","question":"임시열쇠의 기본 만료 기간은 며칠이나 걸리나요?","category":"access","reference_answer":"임시열쇠의 기본 만료 기간은 30일 입니다","relevant_document_ids":["token"],"required_terms":["만료","기간","30일"]},
+            {"question_id":"mine-overseas-vpn-require","question":"해외에서 vpn 접속 요청이 가능한가요?","category":"overseas","reference_answer":"해외 vpn 접속에 대한 정보가 없습니다","relevant_document_ids":[],"required_terms":[]}]
 
 def measure(case, rows, reply):
     expected = set(case["relevant_document_ids"])
     found = {row["document_id"] for row in rows}
-    recall = todo("필요한 문서 중 찾은 비율을 계산하세요. 필요한 문서가 없으면 None입니다.")
+    # recall = todo("필요한 문서 중 찾은 비율을 계산하세요. 필요한 문서가 없으면 None입니다.")
+    recall = len(expected & found) / len(expected) if len(expected) != 0 else None
     answer_ok = (all(term in reply["answer"] for term in case["required_terms"])
                  and not reply["needs_human"]) if expected else reply["needs_human"]
     failure = "없음"
