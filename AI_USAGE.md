@@ -29,3 +29,14 @@ AI는 개념 질문과 직접 작성한 코드의 오류 원인을 확인할 때
 - 저장하지 않은 상태로 검사를 실행해 두 번 실패함. AI가 디스크의 main.py를 보고 저장 문제임을 알려 줌.
 
 
+- measure 관측 주석: AI가 evaluation-live.json의 Recall과 점수를 표로 정리하고 질문을 던졌으며, 문장은 질문에 답하며 직접 작성함.
+- AI_USAGE.md: 대화 내용을 바탕으로 AI가 초안을 쓰고 내가 확인함.
+
+다시 실행한 명령과 확인 결과:
+- uv run --frozen python main.py check index → 3개 중 1개 통과(tolist 오류) → 수정 후 3개 중 3개 통과
+- uv run --frozen python main.py run index → 청크 8개, Point 8개. vpn:0에 승인 요청, 로그인, 다중 인증이 모두 남음. 검색 결과 vpn:0, vpn:1 모두 current/access, vpn-old:0은 저장되었지만 검색되지 않음.
+- uv run --frozen python main.py check answer → 2개 중 1개 통과(저장 안 된 이전 출처 검사 코드) → 저장 후 2개 중 2개 통과
+- uv run --frozen python main.py check evaluate → 3개 중 1개 통과(measure 미완료) → 작성 후 모두 통과
+- uv run --frozen python main.py run answer --live → "초록문 사용 승인은 어디에 요청하나요?"가 VPN 원격 접속으로 변환되어 vpn:0 검색, 답변 "보안팀에 요청", 출처 vpn:0
+- uv run --frozen python main.py run evaluate --live → 변환 전후 문서 Recall 모두 1.0, answer_check 모두 1.0. 별칭 질문의 유사도 점수 0.79→0.94, 0.81→0.93. 자료 없는 질문은 두 방식 모두 담당자 확인
+- uv run --frozen python main.py check all → 8개 항목 모두 통과
